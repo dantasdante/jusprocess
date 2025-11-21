@@ -4,9 +4,12 @@ import json
 import os
 
 # --- CONFIGURAÇÃO ---
-# Lê a variável de ambiente, se não existir, usa 'http://localhost:8000' (para testes locais)
-# No deploy final (Docker/Railway), esta variável garantirá o URL correto.
-API_URL_BASE = os.getenv("JUSCASH_API_BASE_URL", "http://localhost:8000") 
+# O fallback agora é o URL público do Render. 
+# (Isto é útil se você quiser testar diretamente sem configurar a var de ambiente localmente)
+RENDER_PUBLIC_URL = "https://jusprocess.onrender.com"
+
+# API_URL_BASE será o URL que você configurou no Streamlit Secrets.
+API_URL_BASE = os.getenv("JUSCASH_API_BASE_URL", RENDER_PUBLIC_URL) 
 API_VERIFY_URL = f"{API_URL_BASE}/verificar"
 
 st.set_page_config(
