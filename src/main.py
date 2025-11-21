@@ -10,6 +10,7 @@ from uvicorn import run as uvicorn_run
 from pydantic import BaseModel, Field
 from google import genai
 from google.genai import types
+from google.genai.types import RequestOptions
 
 
 # ==============================================================================
@@ -112,7 +113,7 @@ def verificar_processo_llm_gemini(processo: ProcessoJudicial) -> DecisaoProcesso
             contents=[prompt],
             config=config,
             # Tempo limite de 30 segundos
-            request_options=types.RequestOptions(timeout=300) 
+            request_options=RequestOptions(timeout=300) 
         )
         
         # 6. Retorno do Objeto Pydantic 
