@@ -114,12 +114,22 @@ def verificar_processo_llm_gemini(processo: ProcessoJudicial) -> DecisaoProcesso
             timeout=300
         )
         
-        # 6. Retorno do Objeto Pydantic 
-        return DecisaoProcesso.model_validate_json(response.text)
+        # 6. Verificação de Conteúdo Vazio ou Erro
+    if not response.text:
+        # Se a resposta estiver vazia (a causa do erro JSON)
+        raise RuntimeError("O LLM Gemini não retornou nenhum texto (Resposta vazia). Verifique a chave e limites de uso.")
 
-    except Exception as e:
-        # Erro na chamada do modelo (ex: timeout, erro interno)
-        raise RuntimeError(f"Erro na chamada do modelo Gemini: {e}")
+    # 7. Verificação de Bloqueio de Segurança
+    if response.prompt_feedback.block_reason != 0:
+        # Se o Gemini bloquear o prompt por segurança (BlockReason.SAFETY)
+        raise RuntimeError(f"O Prompt foi bloqueado por motivo de segurança: {response.prompt_feedback.block_reason.name}")
+
+    # 8. Retorno do Objeto Pydantic (Só acontece se o texto não for vazio)
+    return DecisaoProcesso.model_validate_json(response.text)
+
+except Exception as e:
+    # Captura o erro e repassa para a API
+    raise RuntimeError(f"Erro na chamada do modelo Gemini: {e}")
 
 
 # ==============================================================================
