@@ -1,1 +1,6 @@
-
+fastapi
+uvicorn[standard]
+pydantic
+google-genai
+streamlit # Novo
+requests 
