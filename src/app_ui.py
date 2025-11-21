@@ -6,10 +6,10 @@ import os
 # --- CONFIGURAÇÃO ---
 # O fallback agora é o URL público do Render. 
 # (Isto é útil se você quiser testar diretamente sem configurar a var de ambiente localmente)
-RENDER_PUBLIC_URL = "https://jusprocess.onrender.com"
+RENDER_PUBLIC_URL = "http://jusprocess.onrender.com"
 
 # API_URL_BASE será o URL que você configurou no Streamlit Secrets.
-API_URL_BASE = os.getenv("JUSCASH_API_BASE_URL", RENDER_PUBLIC_URL) 
+API_URL_BASE = os.getenv("JUSCASH_API_BASE_URL", RENDER_PUBLIC_URL_HTTP).replace("https", "http")
 API_VERIFY_URL = f"{API_URL_BASE}/verificar"
 
 st.set_page_config(
