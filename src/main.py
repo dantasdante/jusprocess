@@ -80,10 +80,22 @@ def verificar_processo_llm_gemini(processo: ProcessoJudicial) -> DecisaoProcesso
         raise ConnectionError("Chave GEMINI_API_KEY não configurada no ambiente.")
 
     # 2. Inicialização do Cliente (Passando a chave diretamente, a solução robusta)
-    try:
-        client = genai.Client(api_key=GEMINI_API_KEY)
-    except Exception as e:
-        raise ConnectionError(f"Erro ao inicializar o cliente Gemini: {e}")
+    # No seu src/main.py, dentro da função verificar_processo_llm_gemini
+
+# 2. Inicialização do Cliente Gemini COM HttpOptions para Timeout
+try:
+    # Define o timeout na configuração HTTP (60 segundos)
+    http_options = types.HttpOptions(
+        timeout=300 
+    )
+    
+    # O cliente é inicializado com a chave E a configuração de HTTP/Timeout
+    client = genai.Client(
+        api_key=GEMINI_API_KEY,
+        http_options=http_options
+    )
+except Exception as e:
+    raise ConnectionError(f"Erro ao inicializar o cliente Gemini: {e}")
 
     # 3. Instrução (Prompt)
     prompt = f"""
@@ -111,7 +123,7 @@ def verificar_processo_llm_gemini(processo: ProcessoJudicial) -> DecisaoProcesso
             model='gemini-2.5-flash',
             contents=[prompt],
             config=config,
-            timeout=300
+            
         )
         
         # 6. Verificação de Conteúdo Vazio ou Erro
