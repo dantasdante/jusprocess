@@ -1,6 +1,7 @@
 import streamlit as st
 import requests
 import json
+import os
 
 # --- CONFIGURAÇÃO ---
 # Lê a variável de ambiente, se não existir, usa 'http://localhost:8000' (para testes locais)
