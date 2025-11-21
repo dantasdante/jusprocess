@@ -9,7 +9,13 @@ import os
 RENDER_PUBLIC_URL = "http://jusprocess.onrender.com"
 
 # API_URL_BASE será o URL que você configurou no Streamlit Secrets.
-API_URL_BASE = os.getenv("JUSCASH_API_BASE_URL", RENDER_PUBLIC_URL_HTTP).replace("https", "http")
+API_URL_BASE = os.getenv("JUSCASH_API_BASE_URL")
+# 2. Verificação de segurança (crucial para evitar o NoneType).
+if not API_URL_BASE:
+    # Se o Segredo não for encontrado, o aplicativo falha com uma mensagem clara.
+    # Isto é melhor do que um erro de NoneType obscuro.
+    st.error("ERRO DE CONFIGURAÇÃO: A variável 'JUSCASH_API_BASE_URL' não foi encontrada nos Segredos do Streamlit.")
+    st.stop() # Para a execução do script
 API_VERIFY_URL = f"{API_URL_BASE}/verificar"
 
 st.set_page_config(
