@@ -112,7 +112,7 @@ def verificar_processo_llm_gemini(processo: ProcessoJudicial) -> DecisaoProcesso
             contents=[prompt],
             config=config,
             # Tempo limite de 30 segundos
-            request_options=types.RequestOptions(timeout=30) 
+            request_options=types.RequestOptions(timeout=300) 
         )
         
         # 6. Retorno do Objeto Pydantic 
