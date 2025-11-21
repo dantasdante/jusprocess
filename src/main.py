@@ -49,7 +49,6 @@ class ProcessoJudicial(BaseModel):
 # ==============================================================================
 # 2. POLÍTICA E LLM (Lógica de Negócio)
 # ==============================================================================
-os.environ['GEMINI_API_KEY'] = 'AIzaSyCh3vyjiqignYGPwDpb3zU9qoAK-h8JZ8s'
 
 # Variável global para armazenar a chave de API, lida do ambiente.
 GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
